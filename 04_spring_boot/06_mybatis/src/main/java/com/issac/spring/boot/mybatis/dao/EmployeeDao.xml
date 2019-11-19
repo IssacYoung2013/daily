@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.issac.spring.boot.mybatis.dao.EmployeeDao">
+
+
+    <insert id="insertEmployee">
+        INSERT INTO employee(name, age) VALUES (#{name},#{age})
+    </insert>
+    <select id="selectEmployeeCount" resultType="_int">
+        SELECT COUNT(1)
+        FROM Employee
+    </select>
+    <select id="selectEmployeeById" resultType="EmployeePo">
+        SELECT id,name,age
+        FROM Employee
+        WHERE id = #{id}
+    </select>
+</mapper>

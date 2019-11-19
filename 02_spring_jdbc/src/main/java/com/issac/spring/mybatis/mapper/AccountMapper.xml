@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.issac.spring.mybatis.mapper.AccountMapper">
+    <update id="update" parameterType="map">
+        UPDATE account SET money = #{money} WHERE name = #{name}
+    </update>
+
+    <select id="queryMoney" resultType="Double">
+        SELECT money FROM account WHERE name = #{name}
+    </select>
+
+</mapper>

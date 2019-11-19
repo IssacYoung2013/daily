@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 注册工厂 -->
+    <bean id="factory1" class="com.issac.spring.primary.TeacherFactory"></bean>
+    <bean id="factory2" class="com.issac.spring.primary.TeacherFactory2"></bean>
+
+    <!-- Spring容器 当前teacher类的实例化操作，由动态工厂负责创建-->
+    <bean id="teacher"
+          class="com.issac.spring.beans.Teacher"
+          factory-method="createTeacher"
+          factory-bean="factory1">
+        <!--<property name="tname" value="Mr Liu"></property>-->
+    </bean>
+
+    <bean id="teacherStatic"
+          class="com.issac.spring.primary.TeacherFactory2"
+          factory-method="createTeacher">
+    </bean>
+    <bean id="student" class="com.issac.spring.beans.Student">
+        <property name="sname" value="Tom"></property>
+        <property name="age" value="12"></property>
+        <property name="teacher" ref="teacherStatic"></property>
+    </bean>
+</beans>

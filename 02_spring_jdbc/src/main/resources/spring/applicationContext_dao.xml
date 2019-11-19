@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="data.properties"/>
+
+    <!--管理DataSource-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--配置 SqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+
+        <!--mybatis批量别名配置-->
+        <!--<property name="typeAliasesPackage" value="com.issac.spring.mybatis.po"/>-->
+
+
+        <!--配置全局配置文件，该部分可以省略掉-->
+        <!--<property name="configLocation" value="classpath:mybatis/mybatis_config.xml"/>-->
+    </bean>
+
+    <!--配置MapperScannerConfigure-->
+    <!--注意事项：Mapper接口类与映射文件同包同名-->
+    <!--<bean id="accountMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+        <!--<property name="mapperInterface" value="com.issac.spring.mybatis.mapper.AccountMapper"/>-->
+    <!--</bean>-->
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.issac.spring.mybatis.mapper"/>
+        <!--错误配置-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+</beans>

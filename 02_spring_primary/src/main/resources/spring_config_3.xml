@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 注册被监控的类 -->
+    <bean id="person" class="com.issac.spring.aop.service.impl.Person"></bean>
+    <bean id="dog" class="com.issac.spring.aop.service.impl.Dog"></bean>
+
+    <!-- 注册通知实现类 -->
+    <bean id="before" class="com.issac.spring.aop.advice.MyBeforeAdvice"></bean>
+
+    <!-- 注册代理监控对象-->
+    <bean id="personProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="person"></property>
+        <property name="interceptorNames" value="before"></property>
+    </bean>
+
+    <bean id="dogProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="dog"></property>
+        <property name="interceptorNames" value="before"></property>
+    </bean>
+
+
+</beans>

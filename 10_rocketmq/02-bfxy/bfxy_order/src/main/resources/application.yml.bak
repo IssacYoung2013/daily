@@ -1,0 +1,79 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///bfxy_order?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: rootroot
+
+    initialSize: 5
+    minIdle: 1
+    maxIdle: 10
+    maxActive: 100
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: true
+    testOnReturn: true
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall,log4j
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+mybatis:
+  type-aliases-package: com.issac.bfxy.order
+  mapper-locations: classpath:com/issac/bfxy/order/mapping/*.xml
+logging:
+  level:
+    tk:
+      mybatis: TRACE
+
+dubbo:
+  application:
+    id: bfxy-order
+    name: bfxy-order
+    qos-port: 22211
+    qos-enable: true
+  scan:
+    base-packages: com.issac.bfxy.order.*
+  protocol:
+    name: dubbo
+    port: 12343
+    id: dubbo
+  registry:
+    id: bfxy-order-registry
+    address: zookeeper://zk1.com:2181?backup=zk2.com:2182,zk3.com:2183
+
+management:
+  endpoint:
+    dubbo:
+      enabled: true
+    dubbo-shutdown:
+      enabled: true
+    dubbo-configs:
+      enabled: true
+    dubbo-services:
+      enabled: true
+    dubbo-references:
+      enabled: true
+    dubbo-properties:
+      enabled: true
+  health:
+    dubbo:
+      status:
+        defaults: memory
+        extras: load,threadpool

@@ -1,0 +1,12 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /issac
+debug: true
+spring:
+  thymeleaf:
+    # 开发阶段建议关闭 cache
+    cache: false
+
+
+

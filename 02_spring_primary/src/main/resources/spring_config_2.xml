@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="teacher" class="com.issac.spring.beans.Teacher1">
+        <property name="teacherName" value="Mr Zhao"></property>
+        <property name="friendArray" value="mike,allen,tom"></property>
+        <property name="school" value="北京航空大学,沈阳工业大学"></property>
+    </bean>
+
+</beans>

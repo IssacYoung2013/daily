@@ -1,0 +1,35 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /issac
+debug: true
+
+# 监控信息
+management:
+  server:
+    port: 9999
+    servlet:
+      context-path: /xxx
+  endpoints:
+    web:
+      # 默认 /actuator
+      base-path: /
+      exposure:
+        # 开放所有监控
+        include: "*"
+        exclude: beans
+
+
+# 自定义info信息
+info:
+  company: issac.com
+  addr: hz
+  resp: 杨
+# 从pom中读取
+  project:
+    groupid: @project.groupId@
+    artifactid: @project.artifactId@
+    name: @project.name@
+    version: @project.version@
+
+

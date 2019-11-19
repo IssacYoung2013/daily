@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="config.properties"></properties>
+
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <!--<typeAliases>-->
+        <!--<package name="com.issac.mybatis" />-->
+    <!--</typeAliases>-->
+    <typeHandlers>
+        <typeHandler handler="com.issac.mybatis.handler.MyTypeHandler" jdbcType="NUMERIC" javaType="boolean"/>
+    </typeHandlers>
+    <plugins>
+        <plugin interceptor="com.issac.mybatis.interceptor.MyInterceptor"></plugin>
+    </plugins>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="DeptMapper.xml"/>
+        <mapper resource="EmpMapper.xml"/>
+    </mappers>
+</configuration>

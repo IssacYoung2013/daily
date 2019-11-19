@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p>现在显示的是静态数据</p>
+<div>现在显示的是静态数据
+</div>
+<span>现在显示的是静态数据</span>
+
+<p th:text="${hello}">现在显示的是动态数据</p>
+<div th:text="${hello}"> 现在显示的是动态数据
+</div>
+<span th:text="${hello}">现在显示的是动态数据</span>
+
+<hr>
+<div th:object="${student}">
+    <p>姓名：<span th:text="*{name}"></span></p>
+    <p>年龄：<span th:text="*{age}"></span></p>
+</div>
+
+</body>
+</html>

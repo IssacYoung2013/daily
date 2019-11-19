@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.issac.mybatis.mapper.EmpMapper">
+
+    <resultMap id="emp" type="com.issac.mybatis.beans.Employee">
+        <constructor>
+            <arg column="HIREDATE" javaType="Date"></arg>
+        </constructor>
+    </resultMap>
+
+    <!--
+        ResultSet  = query();
+        while(ResultSet.next()) {
+            Employee emp = Employee.class.newInstance();
+            Field[] fieldArray = emp.getClass().getDeclaredFields();
+            Stream.of(fieldArray).foreach(field->{
+                String fieldName = field.getName();
+                String value = result.getString(fieldName);
+                field.set(emp,value); // 之前类型转换
+            })
+        }
+    -->
+    <select id="findEmp" resultMap="emp">
+        SELECT * FROM emp2
+    </select>
+
+    <select id="findEmp2" resultType="com.issac.mybatis.beans.Employee">
+        SELECT * FROM emp
+        WHERE 1 =1
+        <choose>
+            <when test="sal >= 5000">
+                and job = 'PRESIDENT'
+            </when>
+            <when test="sal >= 3000">
+                AND job = 'MANAGER'
+            </when>
+            <when test="sal >= 2000">
+                AND job = 'ANALYST'
+            </when>
+            <otherwise>
+                AND job in ('CLERK','SALESMAN')
+            </otherwise>
+        </choose>
+    </select>
+
+    <resultMap id="empMap" type="com.issac.mybatis.beans.Employee">
+        <constructor></constructor>
+        <id column="empno" property="empNo"></id>
+        <result property="ename" column="ename"></result>
+        <result property="job" column="job"></result>
+        <result property="sal" column="sal"></result>
+        <result property="hireDate" column="hiredate"></result>
+        <association property="dept" javaType="com.issac.mybatis.beans.Dept">
+            <result property="deptNo" column="dept_deptno"></result>
+            <result column="dname" property="dname"></result>
+            <result column="loc" property="loc"></result>
+        </association>
+    </resultMap>
+
+    <!-- 根据职员编号查询职员信息及隶属部门信息-->
+    <select id="findEmpById" resultMap="empMap">
+        SELECT dept.deptno dept_deptno,dname,loc,empno,ename,job,sal,hiredate
+        FROM dept JOIN emp
+        ON dept.DEPTNO = emp.DEPTNO
+        WHERE emp.empno = #{empno}
+    </select>
+</mapper>

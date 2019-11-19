@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 注册被监控的类 -->
+    <bean id="person" class="com.issac.spring.aop.service.impl.Person"></bean>
+    <bean id="dog" class="com.issac.spring.aop.service.impl.Dog"></bean>
+
+
+    <!-- 注册通知实现类 -->
+    <bean id="before" class="com.issac.spring.aop.advice.MyBeforeAdvice"></bean>
+
+    <!-- 注册类型过滤器-->
+    <bean id="myClassFilter" class="com.issac.spring.aop.advisor.MyClassFilter"></bean>
+
+    <!--注册方法匹配器-->
+    <bean id="myMethodMatcher" class="com.issac.spring.aop.advisor.MyMethodMatcher"></bean>
+
+    <!--注册织入点-->
+    <bean id="myPointCut" class="com.issac.spring.aop.advisor.MyPointCut" autowire="byType">
+        <property name="classFilter" ref="myClassFilter"></property>
+        <property name="methodMatcher" ref="myMethodMatcher"></property>
+    </bean>
+
+    <!--注册顾问-->
+    <bean id="myPointCutAdvisor" class="com.issac.spring.aop.advisor.MyPointCutAdvisor">
+        <property name="advice" ref="before"></property>
+        <property name="pointcut" ref="myPointCut"></property>
+    </bean>
+
+    <!-- 注册代理对象工厂-->
+    <bean id="personProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="person"></property>
+        <property name="interceptorNames" value="myPointCutAdvisor"></property>
+    </bean>
+
+    <bean id="dogProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="dog"></property>
+        <property name="interceptorNames" value="myPointCutAdvisor"></property>
+    </bean>
+
+</beans>

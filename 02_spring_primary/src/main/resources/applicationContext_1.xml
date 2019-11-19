@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <bean class="com.issac.spring.aop.aspectj.service.impl.UserServiceImpl"></bean>
+
+    <bean id="myAdvice" class="com.issac.spring.aop.aspectj.MyAdvice"></bean>
+
+    <!--aop配置-->
+    <aop:config>
+        <!--配置切面 切面由通知 切入点组成-->
+        <!--<aop:advisor advice-ref="myAdvice" pointcut="execution(void com.issac.spring.aop.aspectj.service.impl.UserServiceImpl.saveUser())"/>-->
+
+        <aop:aspect ref="myAdvice">
+            <aop:before method="log"
+                        pointcut="execution(void com.issac.spring.aop.aspectj.service.impl.UserServiceImpl.saveUser())"/>
+            <aop:after-returning method="log2"
+                        pointcut="execution(void com.issac.spring.aop.aspectj.service.impl.UserServiceImpl.saveUser())"/>
+            <aop:after method="log3"
+                        pointcut="execution(void com.issac.spring.aop.aspectj.service.impl.UserServiceImpl.saveUser())"/>
+            <aop:after-throwing method="log4"
+                       pointcut="execution(void com.issac.spring.aop.aspectj.service.impl.UserServiceImpl.saveUser())"/>
+            <aop:around method="log5"
+                                pointcut="execution(void *..*Impl.*(..))"/>
+        </aop:aspect>
+    </aop:config>
+</beans>

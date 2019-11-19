@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         >
+
+    <servlet>
+        <servlet-name>springmvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!--设置配置文件路径-->
+        <!--如果不舍着初始化参数，DispatcherServlet会读取默认路径的配置文件-->
+       <!--默认路径 /WEB-INF/springmvc-servlet.xml-->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:springmvc.xml</param-value>
+        </init-param>
+        <!--指定初始化时机 2 表示 tomcat启动跟随初始化；
+            如果不指定，DispatcherServlet 在第一次请求时初始化-->
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>springmvc</servlet-name>
+        <!--/ 和 /*
+            /* 报错，会拦截整个项目中的资源访问，包含jsp和静态资源访问，但是对于js的访问，SpringMVC提供了默认的处理器
+                对于jsp没有提供了默认处理器
+            / 不拦截jsp，tomcat 提供了 DefaultServlet JspServlet    -->
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+</web-app>

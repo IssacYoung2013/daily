@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.issac.mybatis.mapper.DeptMapper">
+    <insert id="insertDept">
+        INSERT INTO DEPT (DNAME,LOC,FLAG)
+        VALUES (#{dname},#{loc},#{flag})
+    </insert>
+    <select id="findDept" resultType="com.issac.mybatis.beans.Dept">
+        SELECT *
+        FROM DEPT
+    </select>
+    <select id="findByDeptName1" resultType="com.issac.mybatis.beans.Dept">
+        SELECT *
+        FROM DEPT
+        WHERE dname = #{dname}
+    </select>
+    <select id="findByDeptName2" resultType="com.issac.mybatis.beans.Dept">
+        SELECT *
+        FROM DEPT
+        WHERE dname ='${dname}'
+    </select>
+    <select id="findDept1" resultType="com.issac.mybatis.beans.Dept">
+        <!-- 动态读取表名-->
+        SELECT *
+        FROM ${tablename}
+    </select>
+
+    <!-- if 标签根据判断条件是否为真，来决定if标签包含的内容是否能够出现在当前的SQL语句中-->
+    <select id="findDept2" resultType="com.issac.mybatis.beans.Dept">
+        SELECT * FROM dept
+        WHERE 1=1
+        <!-- 如果参数对象deptno属性不等于null 并且不等于0-->
+        <if test="deptNo != null and deptNo != 0">
+            and deptno = #{deptNo}
+        </if>
+        <if test="dname != null and dname != ''">
+            and dname like '%' #{dname} '%'
+        </if>
+        <if test="loc != null and loc != ''">
+            and loc = #{ loc}
+        </if>
+    </select>
+
+    <!-- 1. where 标签内部所有判断不成立。在查询语句是不会出现where条件或只出现 where 1 = 1
+         2. where 标签中，将第一个满足条件的语句中前部【and,or】自动取消
+    -->
+    <select id="findDept3" resultType="com.issac.mybatis.beans.Dept">
+        SELECT * FROM dept
+        <where>
+            <!-- 如果参数对象deptno属性不等于null 并且不等于0-->
+            <if test="deptNo != null and deptNo != 0">
+                and deptno = #{deptNo}
+            </if>
+            <if test="dname != null and dname != ''">
+                and dname like '%' #{dname} '%'
+            </if>
+            <if test="loc != null and loc != ''">
+                and loc = #{ loc}
+            </if>
+        </where>
+    </select>
+
+    <!-- set标签一般用在更新语句里，动态指定需要更新的信息
+         往往与if标签配合
+    -->
+    <update id="updateDept">
+        <!--UPDATE dept
+        SET dname=#{dname},loc=#{loc}
+        WHERE deptno = #{deptNo}-->
+        UPDATE dept
+        <set>
+            <if test="dname != null and dname != ''">
+                dname = #{dname},
+            </if>
+            <if test="loc != null  and loc != ''">
+                loc = #{loc}
+            </if>
+        </set>
+        WHERE deptno = #{deptNo}
+    </update>
+
+    <!-- trim 自定义当前第一个满足条件前部的代替内容
+        也可以自定义最后一个满足条件的后部代替内容-->
+    <select id="findDept4" resultType="com.issac.mybatis.beans.Dept">
+        SELECT * FROM dept
+        WHERE
+        <trim prefixOverrides="and | or" prefix=" 1 = 1 and " suffixOverrides=",">
+            <if test="deptNo != null and deptNo != 0">
+                and deptno = #{deptNo}
+            </if>
+            <if test="dname != null and dname != ''">
+                and dname like '%' #{dname} '%'
+            </if>
+            <if test="loc != null and loc != ''">
+                and loc = #{ loc},
+            </if>
+        </trim>
+    </select>
+
+    <!-- foreach 批处理添加部门信息-->
+    <insert id="saveDept">
+        INSERT INTO dept(dname,loc)
+        VALUES
+        <foreach collection="list" item="dept" separator=",">
+            (#{dept.dname},#{dept.loc})
+        </foreach>
+    </insert>
+
+    <!-- 使用list集合查询 -->
+    <select id="findDeptByList" resultType="com.issac.mybatis.beans.Dept">
+        SELECT * FROM dept
+        WHERE deptno IN
+        <foreach collection="list" item="deptno" open="(" close=")" separator=",">
+            #{deptno}
+        </foreach>
+    </select>
+
+    <!-- 使用list集合查询 -->
+    <select id="findDeptByArray" resultType="com.issac.mybatis.beans.Dept">
+        SELECT * FROM dept
+        WHERE deptno IN
+        <foreach collection="array" item="deptno" open="(" close=")" separator=",">
+            #{deptno}
+        </foreach>
+    </select>
+
+    <!-- 使用map集合查询 -->
+    <select id="findDeptByMap" resultType="com.issac.mybatis.beans.Dept">
+        SELECT * FROM dept
+        WHERE deptno IN
+        <foreach collection="myMap.values" item="deptno" open="(" close=")" separator=",">
+            #{deptno}
+        </foreach>
+    </select>
+
+    <resultMap id="dept" type="com.issac.mybatis.beans.Dept">
+        <result column="dept_deptno" property="deptNo"></result>
+        <result column="dname" property="dname"></result>
+        <result column="loc" property="loc"></result>
+        <collection column="dept_deptno"
+                    ofType="com.issac.mybatis.beans.Employee"
+                    property="employeeList"
+                    select="findEmpByDeptno"
+        >
+            <!--<id column="empno" property="empNo"></id>-->
+            <!--<result column="ename" property="ename"></result>-->
+        </collection>
+    </resultMap>
+    <!-- 查询当前部门下所有职员名称，以及当前部门的基本信息-->
+    <select id="findDeptById" resultMap="dept">
+        SELECT dept.deptno dept_deptno,dname,loc,empno,ename,job,sal
+        FROM dept JOIN emp
+        ON dept.DEPTNO = emp.DEPTNO
+        WHERE dept.DEPTNO = #{deptno}
+    </select>
+
+    <!-- 根据部门的编号查询部门中的职员信息-->
+    <select id="findEmpByDeptno" resultType="com.issac.mybatis.beans.Employee">
+        SELECT empno,ename,job
+        FROM emp WHERE deptno = #{deptno}
+    </select>
+
+    <select id="findDeptByDeptno" resultMap="dept">
+        SELECT deptno dept_deptno,dname,loc
+        FROM dept
+        WHERE deptno =#{deptno}
+    </select>
+</mapper>

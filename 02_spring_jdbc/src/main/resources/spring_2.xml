@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:property-placeholder location="data.properties"/>
+
+    <!--管理DataSource-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--管理jdbc-->
+    <bean id="template" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg name="dataSource" ref="dataSource"></constructor-arg>
+    </bean>
+
+    <context:component-scan base-package="com.issac.spring.jdbc"/>
+
+    <!--配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--事务通知-->
+    <!--对应的TransactionInterceptor-->
+    <!--TransactionInterceptor 通过transaction-manager设置事务管理信息-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!--增删改用REQUIRED事务传播级别-->
+            <!--查询用READONLY事务传播级别-->
+            <tx:method name="transfer*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--基于AspectJ + XML 的声明式事务-->
+    <aop:config>
+        <!--使用传统aop开放方式，Spring已经实现了该增强功能，实现 MethodInterceptor-->
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* *..*.*ServiceImpl.*(..))"/>
+    </aop:config>
+</beans>
