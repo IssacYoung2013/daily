@@ -3,10 +3,10 @@ package com.issac.algo;
 /**
  * @author: ywy
  * @date: 2019-11-19
- * @desc: 快速排序
+ * @desc: 快速排序 二路
  */
-public class QuickSort {
-    private QuickSort() {
+public class QuickSort2Ways {
+    private QuickSort2Ways() {
     }
 
     public static void sort(Comparable[] arr) {
@@ -29,15 +29,23 @@ public class QuickSort {
         swap(arr, l, (int) (Math.random() * (r - l + 1)) + l);
 
         Comparable e = arr[l];
-        // arr[l+i...j] < v ; arr[j+1...i) > v
-        int j = l;
-        for (int i = l + 1; i <= r; i++) {
-            if (arr[i].compareTo(e) < 0) {
-                j++;
-                swap(arr, j, i);
+        // arr[l+1...i] < v ; arr[j...r) > v
+        int i = l + 1, j = r;
+        while (true) {
+            while (i <= r && arr[i].compareTo(e) < 0) {
+                i++;
             }
+            while (j >= l + 1 && arr[j].compareTo(e) > 0) {
+                j--;
+            }
+            if (i > j) {
+                break;
+            }
+            swap(arr, i, j);
+            i++;
+            j--;
         }
-        swap(arr, l, j);
+        swap(arr,l,j);
         return j;
     }
 

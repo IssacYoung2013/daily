@@ -5,31 +5,29 @@ import java.util.Arrays;
 /**
  * @author: ywy
  * @date: 2019-11-19
- * @desc: 归并排序 O(nlogn)
+ * @desc: 归并排序 O(nlogn) 自底向上 适合链表
  */
-public class MergeSort2 {
-    private MergeSort2() {
+public class MergeSortBU {
+    private MergeSortBU() {
     }
 
     public static void sort(Comparable[] arr) {
         int n = arr.length;
-        mergeSort(arr, 0, n - 1);
+        mergeSortBU(arr, n);
     }
 
-    static void mergeSort(Comparable[] arr, int l, int r) {
-        if (r - l < 16) {
-            insertionSort(arr, l, r);
-            return;
-        }
-//        if (l >= r) {
-//            return;
-//        }
-        // 避免溢出
-        int m = (r - l) / 2 + l;
-        mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, r);
-        if (arr[m].compareTo(arr[m + 1]) > 0) {
-            merge(arr, l, m, r);
+    static void mergeSortBU(Comparable[] arr, int n) {
+        for (int sz = 1; sz <= n; sz += sz) {
+            for (int i = 0; i + sz < n; i += sz + sz) {
+                if (sz < 16) {
+                    insertionSort(arr, i, Math.min(i + 2 * sz - 1, n - 1));
+                    continue;
+                }
+                // 对 arr[i...i+sz-1] 和 arr[i+sz...i+2*sz-1] 排序
+                if (arr[i + sz - 1].compareTo(arr[i + sz]) > 0) {
+                    merge(arr, i, i + sz - 1, Math.min(i + 2 * sz - 1, n - 1));
+                }
+            }
         }
     }
 
@@ -78,6 +76,6 @@ public class MergeSort2 {
     public static void main(String[] args) {
         int N = 10000;
         Integer[] arr = SortTestHelper.generateRandomArray(N, 0, 10000);
-        SortTestHelper.testSort("com.issac.algo.MergeSort2", arr);
+        SortTestHelper.testSort("com.issac.algo.MergeSortBU", arr);
     }
 }

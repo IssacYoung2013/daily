@@ -13,10 +13,11 @@ public class MergeSort2 {
 
     public static void sort(Comparable[] arr) {
         int n = arr.length;
-        mergeSort(arr, 0, n - 1);
+        Comparable[] aux = new Comparable[n];
+        mergeSort(arr, aux, 0, n - 1);
     }
 
-    static void mergeSort(Comparable[] arr, int l, int r) {
+    static void mergeSort(Comparable[] arr, Comparable[] aux, int l, int r) {
         if (r - l < 16) {
             insertionSort(arr, l, r);
             return;
@@ -26,10 +27,10 @@ public class MergeSort2 {
 //        }
         // 避免溢出
         int m = (r - l) / 2 + l;
-        mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, r);
+        mergeSort(arr, aux, l, m);
+        mergeSort(arr, aux, m + 1, r);
         if (arr[m].compareTo(arr[m + 1]) > 0) {
-            merge(arr, l, m, r);
+            merge(arr, aux, l, m, r);
         }
     }
 
@@ -41,22 +42,23 @@ public class MergeSort2 {
      * @param m
      * @param r
      */
-    private static void merge(Comparable[] arr, int l, int m, int r) {
-        Comparable[] aux = Arrays.copyOfRange(arr, l, r + 1);
+    private static void merge(Comparable[] arr, Comparable[] aux, int l, int m, int r) {
+        System.arraycopy(arr, l, aux, l, r - l + 1);
+//        Comparable[] aux = Arrays.copyOfRange(arr, l, r + 1);
         int i = l, j = m + 1, k = l;
         for (; k <= r; k++) {
             // 左半部分已经处理完
             if (i > m) {
-                arr[k] = aux[j - l];
+                arr[k] = aux[j];
                 j++;
             } else if (j > r) {
-                arr[k] = aux[i - l];
+                arr[k] = aux[i];
                 i++;
-            } else if (aux[i - l].compareTo(aux[j - l]) < 0) {
-                arr[k] = aux[i - l];
+            } else if (aux[i].compareTo(aux[j]) < 0) {
+                arr[k] = aux[i];
                 i++;
             } else {
-                arr[k] = aux[j - l];
+                arr[k] = aux[j];
                 j++;
             }
         }

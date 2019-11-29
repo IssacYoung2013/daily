@@ -7,8 +7,8 @@ import java.util.Arrays;
  * @date: 2019-11-19
  * @desc: 归并排序 O(nlogn)
  */
-public class MergeSort2 {
-    private MergeSort2() {
+public class MergeSort {
+    private MergeSort() {
     }
 
     public static void sort(Comparable[] arr) {
@@ -17,13 +17,9 @@ public class MergeSort2 {
     }
 
     static void mergeSort(Comparable[] arr, int l, int r) {
-        if (r - l < 16) {
-            insertionSort(arr, l, r);
+        if (l >= r) {
             return;
         }
-//        if (l >= r) {
-//            return;
-//        }
         // 避免溢出
         int m = (r - l) / 2 + l;
         mergeSort(arr, l, m);
@@ -62,22 +58,9 @@ public class MergeSort2 {
         }
     }
 
-    public static void insertionSort(Comparable[] arr, int l, int r) {
-        for (int i = l + 1; i <= r; i++) {
-            Comparable e = arr[i];
-            int j = i;
-            for (; j > l && e.compareTo(arr[j - 1]) < 0; j--) {
-                arr[j] = arr[j - 1];
-            }
-            if (j < i) {
-                arr[j] = e;
-            }
-        }
-    }
-
     public static void main(String[] args) {
         int N = 10000;
         Integer[] arr = SortTestHelper.generateRandomArray(N, 0, 10000);
-        SortTestHelper.testSort("com.issac.algo.MergeSort2", arr);
+        SortTestHelper.testSort("com.issac.algo.MergeSort", arr);
     }
 }

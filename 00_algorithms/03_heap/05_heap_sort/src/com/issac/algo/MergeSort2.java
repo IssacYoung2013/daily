@@ -78,6 +78,6 @@ public class MergeSort2 {
     public static void main(String[] args) {
         int N = 10000;
         Integer[] arr = SortTestHelper.generateRandomArray(N, 0, 10000);
-        SortTestHelper.testSort("com.issac.algo.MergeSort2", arr);
+        SortTestHelper.testSort("com.issac.algo.MergeSort", arr);
     }
 }

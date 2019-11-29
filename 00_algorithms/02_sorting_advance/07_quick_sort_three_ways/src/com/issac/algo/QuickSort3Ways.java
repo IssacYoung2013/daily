@@ -3,10 +3,10 @@ package com.issac.algo;
 /**
  * @author: ywy
  * @date: 2019-11-19
- * @desc: 快速排序
+ * @desc: 快速排序 三路
  */
-public class QuickSort {
-    private QuickSort() {
+public class QuickSort3Ways {
+    private QuickSort3Ways() {
     }
 
     public static void sort(Comparable[] arr) {
@@ -19,26 +19,27 @@ public class QuickSort {
             insertionSort(arr, l, r);
             return;
         }
-        int p = partition(arr, l, r);
-        quickSort(arr, l, p - 1);
-        quickSort(arr, p + 1, r);
-    }
-
-    public static int partition(Comparable[] arr, int l, int r) {
         // 随机
         swap(arr, l, (int) (Math.random() * (r - l + 1)) + l);
 
         Comparable e = arr[l];
-        // arr[l+i...j] < v ; arr[j+1...i) > v
-        int j = l;
-        for (int i = l + 1; i <= r; i++) {
+        // arr[l+1...lt] < v ; arr[lt+1...i) = v ; arr[gt...r] > v
+        int i = l + 1, lt = l, gt = r + 1;
+        while (i < gt) {
             if (arr[i].compareTo(e) < 0) {
-                j++;
-                swap(arr, j, i);
+                swap(arr, lt + 1, i);
+                lt++;
+                i++;
+            } else if (arr[i].compareTo(e) > 0) {
+                swap(arr, gt - 1, i);
+                gt--;
+            } else {
+                i++;
             }
         }
-        swap(arr, l, j);
-        return j;
+        swap(arr, l, lt);
+        quickSort(arr, l, lt -1);
+        quickSort(arr, gt, r);
     }
 
     static void swap(Comparable[] arr, int a, int b) {
@@ -63,6 +64,6 @@ public class QuickSort {
     public static void main(String[] args) {
         int N = 10000;
         Integer[] arr = SortTestHelper.generateRandomArray(N, 0, 10000);
-        SortTestHelper.testSort("com.issac.algo.QuickSort", arr);
+        SortTestHelper.testSort("com.issac.algo.QuickSort3Ways", arr);
     }
 }
