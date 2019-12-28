@@ -236,3 +236,117 @@ Set 和 List 的结合
 
 + ConcurrentHashMultiset
 + ImmutableSMultiset
+
+## 集合工具类
+Guava提供了很多工具方法
+## 对字节流/字符流提供的工具方法
++ ByteStreams 提供对 InputStream/OutputStream
++ CharStreams Reader/Writer
+## 对源 Source 与 汇 Sink 抽象
++ 源是可读的：ByteSource / CharSource
++ 汇是可写的：ByteSink / CharSink
+
+#线程池
+##线程池简介
++ 什么是线程池
+
+线程池顾名思义就是事先创建若干个可执行的线程放入一个池（容器）中，需要的时候从池
+中获取不用自行创建，使用完毕不需要销毁而是放回池中，从而减少创建和销毁线程对象的开销
+
+## 线程池带来的好处
++ 降低资源消耗
++ 提高响应速度
++ 提高线程的可管理性
+## 简单线程池设计
+
+池子，开启/初始化/关闭，提供外部获取线程、归还线程
++ 创建多少？
++ 线程没有了，怎么处理？
+
+池子，使用者提交任务，异步结果返回，任务队列，执行器从任务队列中拿任务，从池子中拿线程执行，执行任务
+后返回结果，归还线程
++ 创建多少？
++ 队列数组多长？
++ 任务队列满了，怎么办？
+
+## 线程池的核心参数
++ corePoolSize 核心线程数量
++ maximumPoolSize 最大线程数量
++ keepAliveTime 线程空闲后的存活时间
++ unit 时间单位
++ workQueue 用于存放任务的阻塞队列
++ threadFactory 线程工厂类
++ handler 当队列和最大线程池都满了之后的饱和策略
+## 线程池的处理流程
++ 提交任务
++ 检测核心线程池是否已满
++ 没有满，创建新线程执行任务
++ 满，阻塞队列是否已满
++ 没有满，任务存储在阻塞队列中
++ 满，线程池是否已满
++ 没有满，创建新线程执行任务
++ 满，按照饱和策略处理
+## 线程池可选择的阻塞队列
++ 无界队列
++ 有届队列
++ 同步移交队列
+## 线程池可选择的饱和策略
++ AbortPolicy 的终止策略
++ DiscardPolicy抛弃策略
++ DiscardOldestPolicy抛弃旧任务策略
++ CallerRunsPolicy调用者运行策略
+##线程池执行意图
+##常用线程池
++ cachedThreadPool
++ fixedThreadPool
++ singleThreadPool
+#实用工具
+##Lombok简介
+java库，提供了常用注解，会在编译期自动生成代码
+##Lombok实现原理
+注解的两种解析方式
++ 运行时解析
++ 编译时解析
+
+编译时解析的两种机制
++ Annotation Processing Tool 注解处理器 JDK1.8移除
++ Pluginable Annotation Processing API 插入式注解处理器
++ javac 生成抽象语法树-》插入式注解处理器处理-》判断语法树是否变动-》是，重新生成语法树-》无，生成字节码
+##Lombok常用注解
++ @Slf4j 添加日志支持
++ @SneakyThrows 自动生成 try/catch 
++ @Synchronized 自动生成同步锁
++ @Builder 自动生成构造者模式
++ @Cleanup 自动调用变量的close方法释放资源
++ @NonNull 自动生成控制校验
++ 构造方法 @Getter @Setter @Data @AllArgsConstructor
+##Lombok优点
++ 通过注解自动生成样板代码，提高开发效率
++ 代码简洁，只关注属性
++ 修改属性，不用修改方法
+##Lombok缺点
++ 降低源代码的可读性和完整性
++ 加大了排查问题的难度
++ 需要ide插件支持
+#验证框架
+##分层验证与JavaBean验证
++ 分层验证模型
++ JavaBean 验证模型
+## Bean Validation 简介
+Bean Validation 验证API
+##JCP,JSR简介
+JCP Java Community Process 定义Java特性
+JCP使用 JSR
++ JSR303 BeanValidation 1.0 验证邮箱
++ JSR349 BeanValidation 1.1 el表达式
++ JSR380 BeanValidation 2.0 容器类型及联验证
+## Bean Validation 与 Hibernate Validator
++ Bean Validation 1.0 实现 Hibernate Validator 4.3.1.Final
++ Bean Validation 1.1 实现 Hibernate Validator 5.1.1.Final
++ Bean Validation 2,0 实现 Hibernate Validator 6.0.1.Final
+## Hibernate Validator 与 Spring Validation
+Spring Validation 是二次封装
+##常用约束注解
++ 空值校验：@Null @NotNull @NotEmpty(去除左右空字符) @NotBlank
++ 范围校验类：@Min @Size @Digits @Future @Negative
++ 其他校验类：@Email @Url @Pattern 
