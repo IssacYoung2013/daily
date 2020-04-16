@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -143,7 +144,8 @@ public class ItemController {
     @ResponseBody
     public Item findItem3(@RequestParam(value = "id"
             , required = false, defaultValue = "3") Integer id) {
-        return itemService.queryItemById(id);
+        return Optional.ofNullable(itemService.queryItemById(id))
+                .orElse(new Item());
     }
 
     @RequestMapping("findItem4/{id}")
@@ -243,7 +245,7 @@ public class ItemController {
                 String newFileName = UUID.randomUUID().toString() + extName;
                 String baseDir = "/Users/Issac/workspaces/github/upload/";
                 File dirFile = new File(baseDir);
-                if(!dirFile.exists()) {
+                if (!dirFile.exists()) {
                     dirFile.mkdir();
                 }
                 // 文件复制到目标路径

@@ -8,10 +8,16 @@ package com.issac.interview.bytecode;
 public class ByteCodeSample {
     public static void main(String[] args) {
 //        Class.forName()
-        int i = 1,j =5;
+        int i = 1, j = 5;
         i++;
         ++j;
         System.out.println(i);
         System.out.println(j);
+    }
+
+    public static int add(int a, int b) {
+        int c = 0;
+        c = a + b;
+        return c;
     }
 }

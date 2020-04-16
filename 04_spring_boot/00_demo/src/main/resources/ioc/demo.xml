@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="student" class="com.issac.spring.boot.demo.ioc.xml.Student">
+        <constructor-arg index="0" value="issac"></constructor-arg>
+        <constructor-arg index="1" value="27"></constructor-arg>
+        <constructor-arg index="2" value="English,Math,Chinese"></constructor-arg>
+        <!--        <property name="age" value="17"/>-->
+        <!--        <property name="name" value="issac"/>-->
+        <!--        <property name="courseList">-->
+        <!--            <list>-->
+        <!--                <value>English</value>-->
+        <!--                <value>Math</value>-->
+        <!--                <value>Chinese</value>-->
+        <!--            </list>-->
+        <!--        </property>-->
+    </bean>
+
+<!--    <bean class="com.issac.spring.boot.demo.ioc.xml.HelloService">-->
+<!--        <property name="student" ref="student"/>-->
+<!--        <property name="animal" ref="dog"/>-->
+<!--    </bean>-->
+
+    <bean class="com.issac.spring.boot.demo.ioc.xml.AnimalFactory" id="dog"
+          factory-method="getAnimal">
+        <constructor-arg name="type" value="dog"/>
+    </bean>
+
+    <bean class="com.issac.spring.boot.demo.ioc.xml.AnimalFactory" id="cat"
+          factory-method="getAnimal">
+        <constructor-arg name="type" value="cat"/>
+    </bean>
+</beans>

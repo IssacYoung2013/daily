@@ -1,0 +1,94 @@
+Classfile /Users/Issac/workspace/java/daily/00_javase/03_interview/src/main/java/com/issac/interview/bytecode/ByteCodeSample.class
+  Last modified Dec 31, 2019; size 528 bytes
+  MD5 checksum 179482183afebaa27c807979fcda813c
+  Compiled from "ByteCodeSample.java"
+public class com.issac.interview.bytecode.ByteCodeSample
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Methodref          #5.#16         // java/lang/Object."<init>":()V
+   #2 = Fieldref           #17.#18        // java/lang/System.out:Ljava/io/PrintStream;
+   #3 = Methodref          #19.#20        // java/io/PrintStream.println:(I)V
+   #4 = Class              #21            // com/issac/interview/bytecode/ByteCodeSample
+   #5 = Class              #22            // java/lang/Object
+   #6 = Utf8               <init>
+   #7 = Utf8               ()V
+   #8 = Utf8               Code
+   #9 = Utf8               LineNumberTable
+  #10 = Utf8               main
+  #11 = Utf8               ([Ljava/lang/String;)V
+  #12 = Utf8               add
+  #13 = Utf8               (II)I
+  #14 = Utf8               SourceFile
+  #15 = Utf8               ByteCodeSample.java
+  #16 = NameAndType        #6:#7          // "<init>":()V
+  #17 = Class              #23            // java/lang/System
+  #18 = NameAndType        #24:#25        // out:Ljava/io/PrintStream;
+  #19 = Class              #26            // java/io/PrintStream
+  #20 = NameAndType        #27:#28        // println:(I)V
+  #21 = Utf8               com/issac/interview/bytecode/ByteCodeSample
+  #22 = Utf8               java/lang/Object
+  #23 = Utf8               java/lang/System
+  #24 = Utf8               out
+  #25 = Utf8               Ljava/io/PrintStream;
+  #26 = Utf8               java/io/PrintStream
+  #27 = Utf8               println
+  #28 = Utf8               (I)V
+{
+  public com.issac.interview.bytecode.ByteCodeSample();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 8: 0
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=3, args_size=1
+         0: iconst_1
+         1: istore_1
+         2: iconst_5
+         3: istore_2
+         4: iinc          1, 1
+         7: iinc          2, 1
+        10: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        13: iload_1
+        14: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+        17: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        20: iload_2
+        21: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+        24: return
+      LineNumberTable:
+        line 11: 0
+        line 12: 4
+        line 13: 7
+        line 14: 10
+        line 15: 17
+        line 16: 24
+
+  public static int add(int, int);
+    descriptor: (II)I
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=3, args_size=2
+         0: iconst_0
+         1: istore_2
+         2: iload_0
+         3: iload_1
+         4: iadd
+         5: istore_2
+         6: iload_2
+         7: ireturn
+      LineNumberTable:
+        line 19: 0
+        line 20: 2
+        line 21: 6
+}
+SourceFile: "ByteCodeSample.java"

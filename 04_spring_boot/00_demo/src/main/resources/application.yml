@@ -1,0 +1,46 @@
+server:
+  port: 9090
+spring:
+  redis:
+    port: 6379
+    host: 127.0.0.1
+    database: 0
+  datasource:
+    # 注册数据源类型
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///demo?useUnicode=true
+    username: root
+    password: rootroot
+#  main:
+#    banner-mode: off
+#  banner:
+#    location: favourite.txt
+#  banner:
+#    image:
+#      location: favourite.jpg
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.issac.spring.boot.demo.bean
+  configuration:
+    map-underscore-to-camel-case: true
+
+context:
+  initializer:
+    classes: com.issac.spring.boot.demo.initializer.ThirdInitializer
+  listener:
+    classes: com.issac.spring.boot.demo.listener.ThirdListener
+young: issac
+issac:
+  website:
+    url: issacyoung3.cn
+com:
+  issac:
+    condition: test
+    condition1: test1
+    condition2: test2
+
+weather:
+  type: rain
+  rate: serious
+  enable: enable
+

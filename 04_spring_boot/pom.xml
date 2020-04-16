@@ -12,6 +12,7 @@
         <module>01_primary</module>
         <module>02_multiEnv</module>
         <module>03_webdemo</module>
+        <module>00_demo</module>
     </modules>
 
 

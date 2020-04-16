@@ -5,6 +5,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <!--   spring-mvc 包扫描-->
     <context:component-scan base-package="com.issac.spring.ssm"/>
 
     <!--处理器适配器，调用conversionService-->
@@ -44,13 +45,13 @@
     <!--<bean id="interceptor" class="com.issac.spring.ssm.interceptor.MyHandlerInterceptor"/>-->
 
     <!--<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">-->
-        <!--<property name="interceptors">-->
-            <!--<list>-->
-               <!--<ref bean="interceptor"/>-->
-            <!--</list>-->
-        <!--</property>-->
+    <!--<property name="interceptors">-->
+    <!--<list>-->
+    <!--<ref bean="interceptor"/>-->
+    <!--</list>-->
+    <!--</property>-->
     <!--</bean>-->
-    
+
     <!--全局拦截器-->
     <mvc:interceptors>
         <!--公共拦截器-->
